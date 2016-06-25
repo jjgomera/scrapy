@@ -8,12 +8,12 @@ import sqlite3
 from scrapy import log
 
 
-class PacktPipeline(object):
+class OspreyPipeline(object):
 
     def open_spider(self, spider):
-        self.connection = sqlite3.connect('../book.db')
+        self.connection = sqlite3.connect('../bookOsprey.db')
         self.cursor = self.connection.cursor()
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS Packt \
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS Osprey \
                             (id INTEGER PRIMARY KEY,
                             url TEXT,
                             title TEXT,
@@ -35,13 +35,13 @@ class PacktPipeline(object):
 
     def process_item(self, item, spider):
         self.cursor.execute(
-            "select isbn from Packt where isbn=%s" % item['isbn'])
+            "select isbn from Osprey where isbn=?", (item['isbn'],))
         result = self.cursor.fetchone()
         if result:
             log.msg("Item already in database: %s" % item, level=log.DEBUG)
         else:
             self.cursor.execute(
-                """insert into Packt (url, title, autor, date, isbn,
+                """insert into Osprey (url, title, autor, date, isbn,
                 description, pages, serie, categories, image, imagehd,
                 downloaded, format, quality, path, number, edition) values
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
