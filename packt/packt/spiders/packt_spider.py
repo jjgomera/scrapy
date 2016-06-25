@@ -18,9 +18,9 @@ tree = html.fromstring(response.read())
 text = tree.xpath('//div[@class="facet-cat-wrapper cf"]//div[@class="facet-cat-text"]/text()')[0]
 count = int(text.split("(")[-1].split(")")[0])
 print count
-# Limitar count a los ultimos 500 libros una vez para actualizaciones de base
+# Limitar count a los ultimos 100 libros una vez para actualizaciones de base
 # de datos
-count = 500
+count = 300
 
 cat = {"application-development": "Application Development",
        "big-data-and-business-intelligence": "Big Data & Business Intelligence",
